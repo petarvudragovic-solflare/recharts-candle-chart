@@ -41,7 +41,9 @@ export type CandlesProps = {
 const CandleStick: React.FC<any> = (props) => {
   const {
     x,
+    y,
     width,
+    height,
     payload,
     upColor = '#16a34a',
     downColor = '#dc2626',
@@ -56,7 +58,7 @@ const CandleStick: React.FC<any> = (props) => {
   const yAxisDomain = useYAxisDomain(yAxisId);
   if (!yAxisDomain) return null;
 
-  const yScale = scaleLinear().domain(yAxisDomain).range([plotArea?.height ?? 0, 0]);
+  const yScale = scaleLinear().domain(yAxisDomain).range([(plotArea?.height ?? 0) + height / 2, (height / 2)]);
 
   const isUp = payload.quote.close >= payload.quote.open;
   const color = isUp ? upColor : downColor;
@@ -74,6 +76,15 @@ const CandleStick: React.FC<any> = (props) => {
 
   return (
     <g>
+      {/* <rect
+        x={x}
+        y={height / 2}
+        width={width}
+        height={plotArea?.height}
+        fill="#000000"
+        stroke="#000000"
+      /> */}
+
       <line x1={x + width / 2} x2={x + width / 2} y1={yHigh} y2={yLow} stroke={color} strokeWidth={1} />      
       <rect
         x={x}
